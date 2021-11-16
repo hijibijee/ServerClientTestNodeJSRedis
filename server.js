@@ -12,10 +12,10 @@ Promise.promisifyAll(redis)
 
 io.on("connection", (socket) => {
     clientCount++;
-    console.log("[Client connected]")
+    //onsole.log("[Client connected]")
     socket.on("message", (data) => { 
         //console.log("Received client no: " + clientCount)
-        console.log("[received] " + data.toString())
+        //console.log("[received] " + data.toString())
         //socket.send(data.toString().toUpperCase())
         // const queryRes = (async () => {
         //     await isUser(data.toString())
@@ -53,3 +53,9 @@ redis.on('connect',
 async function isUser(userName){
     return redis.sismemberAsync("user", userName)
 }
+
+const printCount = () => {
+    console.log(clientCount)
+}
+
+setInterval(printCount, 1000)
