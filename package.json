@@ -16,7 +16,11 @@
   "devDependencies": {},
   "scripts": {
     "test": "node client.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "server": "node server.js",
+    "database": "node createDatabase.js",
+    "loadtester": "node loadTester.js",
+    "client": "node client.js"
   },
   "author": "Tashrif Ahmad Taif",
   "license": "ISC"
