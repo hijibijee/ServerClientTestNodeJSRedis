@@ -4,18 +4,25 @@ const redis = Redis.createClient({
     host: '127.0.0.1',
     port: 6379
 });
-const { Server } = require("socket.io");
-const io = new Server({});
+
+const express = require('express')
+const http = require('http')
+const app = express()
+const server = http.Server(app)
+//const { Server } = require("socket.io");
+//const io = new Server({});
+const socketIO = require('socket.io')
+const io = socketIO(server)
 var clientCount = 0;
 
 Promise.promisifyAll(redis)
 
 io.on("connection", (socket) => {
     clientCount++;
-    //onsole.log("[Client connected]")
+    //console.log("[Client connected]")
     socket.on("message", (data) => { 
         //console.log("Received client no: " + clientCount)
-        //console.log("[received] " + data.toString())
+            //console.log("[received] " + data.toString())
         //socket.send(data.toString().toUpperCase())
         // const queryRes = (async () => {
         //     await isUser(data.toString())
@@ -35,11 +42,15 @@ io.on("connection", (socket) => {
 
         isUser(data.toString()).then(
             (result) => {
-                if(result == 1) socket.send("Hello " + data.toString())
+                if(result == 1) socket.send("Hello " + data.toString().toUpperCase())
                 else socket.send("Oops...")
             }
         ).catch((err) => console.log(err))
     });
+
+    socket.on('disconnect', ()=> {
+        clientCount--;
+    })
 });
 
 io.listen(3000);

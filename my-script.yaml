@@ -1,0 +1,57 @@
+config:
+  target: "http://localhost:3000"
+  socketio:
+    transports: ["websocket"]
+  phases:
+    - duration: 5 # in second
+      arrivalRate: 200 # per second
+      rampTo: 10000
+  processor: "./functions.js"
+scenarios:
+  - name: "Worker-1"
+  - engine: "socketio"
+    flow:
+      - function: "setMessage"
+      - emit:
+          channel: "message"
+          data: "{{ message }}"
+          response: 
+            channel: "message"
+            data: "{{ $data }}"
+      - think: 5 #disconnects after 5 seconds
+# # scenarios:
+#   - name: "Worker-2"
+#   - engine: "socketio"
+#     flow:
+#       - function: "setMessage"
+#       - emit:
+#           channel: "message"
+#           data: "{{ message }}"
+#           response: 
+#             channel: "message"
+#             data: "{{ $data }}"
+#       - think: 30 #disconnects after 30 seconds
+# # scenarios:
+#   - name: "Worker-3"
+#   - engine: "socketio"
+#     flow:
+#       - function: "setMessage"
+#       - emit:
+#           channel: "message"
+#           data: "{{ message }}"
+#           response: 
+#             channel: "message"
+#             data: "{{ $data }}"
+#       - think: 30 #disconnects after 30 seconds
+# # scenarios:
+#   - name: "Worker-4"
+#   - engine: "socketio"
+#     flow:
+#       - function: "setMessage"
+#       - emit:
+#           channel: "message"
+#           data: "{{ message }}"
+#           response: 
+#             channel: "message"
+#             data: "{{ $data }}"
+#       - think: 30 #disconnects after 30 seconds

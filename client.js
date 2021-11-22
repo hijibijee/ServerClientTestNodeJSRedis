@@ -7,6 +7,10 @@ socket.on("connect",
     }
 );
 
+socket.on("disconnect", (reason) => {
+    console.log(`disconnect due to ${reason}`);
+});
+
 socket.on("message", 
     (data) => {  
         console.log("[received] " + data.toString());
